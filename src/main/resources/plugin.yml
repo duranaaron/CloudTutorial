@@ -1,0 +1,4 @@
+name: Cloudtutorial
+version: '${project.version}'
+main: com.aaronduran.cloudtutorial.CloudTutorial
+api-version: 1.18
