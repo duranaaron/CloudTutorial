@@ -1,10 +1,9 @@
 package com.aaronduran.cloudtutorial;
 
 import cloud.commandframework.CommandTree;
-import cloud.commandframework.annotations.AnnotationParser;
-import cloud.commandframework.annotations.CommandDescription;
-import cloud.commandframework.annotations.CommandMethod;
-import cloud.commandframework.annotations.CommandPermission;
+import cloud.commandframework.annotations.*;
+import cloud.commandframework.annotations.specifier.Greedy;
+import cloud.commandframework.annotations.specifier.Quoted;
 import cloud.commandframework.arguments.parser.ParserParameters;
 import cloud.commandframework.arguments.parser.StandardParameters;
 import cloud.commandframework.bukkit.BukkitCommandManager;
@@ -12,6 +11,8 @@ import cloud.commandframework.bukkit.CloudBukkitCapabilities;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.CommandMeta;
 import cloud.commandframework.paper.PaperCommandManager;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -76,7 +77,7 @@ public final class CloudTutorial extends JavaPlugin {
     @CommandMethod("example")
     @CommandDescription("Sends a test message!")
     @CommandPermission("example.permission")
-    private void commandExample(final @NonNull Player player){
+    private void commandExample(final @NonNull Player player) {
         player.sendMessage(ChatColor.GREEN + "Hello!");
     }
 
@@ -85,6 +86,20 @@ public final class CloudTutorial extends JavaPlugin {
     @CommandPermission("example.clear")
     private void commandClear(final @NonNull Player player) {
         player.getInventory().clear();
-        player.sendMessage(ChatColor.GOLD+"Your inventory has been cleared");
+        player.sendMessage(ChatColor.GOLD + "Your inventory has been cleared");
+    }
+
+    @CommandMethod("example broadcast <message>")
+    @CommandDescription("Broadcast your message to the wild!")
+    @CommandPermission("example.broadcast")
+    private void commandBroadcast(final @NonNull Player player, @Argument("message") @Greedy Component message) {
+        Bukkit.broadcast(message);
+    }
+
+    @CommandMethod("example tp <target>")
+    @CommandDescription("Teleport to another player!")
+    @CommandPermission("example.teleport")
+    private void commandTp(final @NonNull Player player, @Argument("target") @Quoted Player target) {
+        player.teleport(target.getLocation());
     }
 }
