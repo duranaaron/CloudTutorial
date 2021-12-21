@@ -92,14 +92,16 @@ public final class CloudTutorial extends JavaPlugin {
     @CommandMethod("example broadcast <message>")
     @CommandDescription("Broadcast your message to the wild!")
     @CommandPermission("example.broadcast")
-    private void commandBroadcast(final @NonNull Player player, @Argument("message") @Greedy Component message) {
-        Bukkit.broadcast(message);
+    private void commandBroadcast(final @NonNull Player player, @Argument("message") @Greedy String message) {
+        Component messageComponent = Component.text(message);
+        Bukkit.broadcast(messageComponent);
     }
 
     @CommandMethod("example tp <target>")
     @CommandDescription("Teleport to another player!")
     @CommandPermission("example.teleport")
-    private void commandTp(final @NonNull Player player, @Argument("target") @Quoted Player target) {
+    private void commandTp(final @NonNull Player player, @Argument("target") @Quoted String targetName) {
+        Player target = Bukkit.getPlayer(targetName);
         player.teleport(target.getLocation());
     }
 }
